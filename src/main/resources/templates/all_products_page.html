@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>All Products</title>
+
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+
+    <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+
+</head>
+<body>
+
+<div class="container-fluid mb-4 mt-1">
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link active" href="#">Home</a>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+               aria-expanded="false" th:text="#{language.label}"></a>
+            <div class="dropdown-menu">
+                <button class="dropdown-item" onclick="changeLanguage('en')">English</button>
+                <button class="dropdown-item" onclick="changeLanguage('ru')">Русский</button>
+            </div>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+               aria-expanded="false" th:text="#{currency.label}"></a>
+            <div class="dropdown-menu">
+                <button class="dropdown-item" onclick="changeCurrency('usd')">USD</button>
+                <button class="dropdown-item" onclick="changeCurrency('eur')">EUR</button>
+                <div class="dropdown-divider"></div>
+                <button class="dropdown-item" onclick="changeCurrency('uah')">UAH</button>
+            </div>
+        </li>
+    </ul>
+</div>
+
+<div class="container-fluid">
+    <div class="row row-cols-1 row-cols-md-3">
+        <th:block th:each="product : ${productList}">
+            <div class="col mb-4">
+                <div class="card h-100 border-primary">
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${language == 'ru' ? product.nameRu : product.nameEn}"></h5>
+                        <p class="card-text"
+                           th:text="${language == 'ru' ? product.descriptionRu : product.descriptionEn}"></p>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <span>ID:</span>
+                            <span th:text="${product.id}"></span>
+                        </li>
+                        <li class="list-group-item">
+                            <span th:text="#{price.message}"></span>
+                            <span th:if="${USD != null}"
+                                  th:text="'$' + ${#numbers.formatDecimal(product.price / USD, 1, 'DEFAULT', 2, 'DEFAULT')}"></span>
+                            <span th:if="${EUR != null}"
+                                  th:text="'€' + ${#numbers.formatDecimal(product.price / EUR, 1, 'DEFAULT', 2, 'DEFAULT')}"></span>
+                            <span th:if="${EUR == null && USD == null}" th:text="'₴' + ${product.price}"></span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </th:block>
+    </div>
+</div>
+
+<script th:src="@{/js/functions.js}"></script>
+
+</body>
+</html>
