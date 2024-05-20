@@ -2,6 +2,7 @@ package com.myproject.products.controller;
 
 import com.myproject.products.entity.Product;
 import com.myproject.products.service.IProductService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,13 +10,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import java.util.List;
 
 @Controller
+@RequiredArgsConstructor
 public class ProductController {
 
-    private IProductService productService;
-
-    public ProductController(IProductService productService) {
-        this.productService = productService;
-    }
+    private final IProductService productService;
 
     @GetMapping("/products")
     public String listAllProducts(Model model) {

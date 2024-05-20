@@ -5,6 +5,7 @@ import com.google.gson.reflect.TypeToken;
 import com.myproject.products.dao.ProductRepository;
 import com.myproject.products.entity.Currency;
 import com.myproject.products.entity.Product;
+import lombok.RequiredArgsConstructor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -16,16 +17,12 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ProductServiceImpl implements IProductService {
 
     private static final String API_CURRENCY_URL = "https://api.privatbank.ua/p24api/pubinfo?exchange&coursid=5";
 
-    private ProductRepository productRepository;
-
-    @Autowired
-    public ProductServiceImpl(ProductRepository productRepository) {
-        this.productRepository = productRepository;
-    }
+    private final ProductRepository productRepository;
 
     @Override
     public List <Product> findAll() {
